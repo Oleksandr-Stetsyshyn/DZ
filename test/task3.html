@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- Задача 3. Дано послідовність чисел, які згенеровано випадковим чином.
+    Сформувати новий масив, у якому елементи є більшими за перший елемент. -->
+
+    <script>
+        function getNewArr(min = 0, max = 100, length = 10) {
+            let arr = []
+            for (let i = 0; i < length; i++) {
+                arr.push(getRendomNumb(min, max))
+            }
+            return arr
+        }
+
+        function getRendomNumb(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min
+        }
+
+        function findMin(res, x, i, arr) {
+            if (x < res) {
+                res = x
+            }
+            return res
+        }
+
+        function putMinNumtoFirst() {
+            let min = arr.reduce(findMin);
+            let indexMin = arr.indexOf(min)
+            arr.splice(indexMin, 1)
+            arr.unshift(min)
+            return arr
+        }
+
+        let arr = getNewArr()
+        
+        document.write(`${arr}<br>`)
+        document.write(`${putMinNumtoFirst(arr)}`)
+
+    </script>
+
+</head>
+
+<body>
+</body>
+
+</html>

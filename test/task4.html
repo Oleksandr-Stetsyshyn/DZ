@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- Усі елементи введеного масиву помножити на 17 -->
+    <script>
+        let arr = prompt("Введіть масив чисел через пробіл").split(' ')
+        document.write(`${arr}<br>`)
+        
+        arr.forEach((x, i, arr) => arr[i] = parseInt(arr[i]) * 17)
+        document.write(arr)
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

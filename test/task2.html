@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- Задача 2. Користувач вводить 10 слів. Підрахувати кількість слів,
+    у яких перша літера і остання літера однакові. -->
+    <script>
+        let wordsArr = prompt("Введіть 10 слів через пробіл").split(' ')
+
+        function isTheSameLetter(word) {
+            let arr = word.split('')
+            return arr[0] == arr[arr.length - 1]
+        }
+
+        function getWordsWithSameLeters(result, x, i, arr) {
+            if (isTheSameLetter(x))
+                result++
+            return result
+        }
+
+        document.write(`Ви ввели ${wordsArr.reduce(getWordsWithSameLeters, 0)} слів з однаковими першою і останньою літерами`)
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>

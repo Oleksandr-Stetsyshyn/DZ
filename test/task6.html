@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- Задача. Створити клас «Тренажер арифметичних операцій»
+        На основі цього класу створити клас «Тестер», 
+        який виконує перевірку вказаної кількості завдань (при цьому зберігає неправильні відповіді), 
+        нараховує бали у 100 бальній шкалі.Після тестування вивести усі неправильні відповіді із вказування правильних  -->
+    <style>
+        td:nth-child(odd) {
+            background-color: rgb(255, 0, 0);
+        }
+
+        td:nth-child(even) {
+            background-color: rgb(1, 158, 1);
+        }
+    </style>
+    <script>
+
+        class AryfmCheker {
+            constructor(min = 1, max = 10) {
+                this.min = min
+                this.max = max
+            }
+
+            randomNumb = (min, max) => {
+                let numb = Math.floor(Math.random() * (max - min + 1)) + min
+                return numb
+            }
+
+            randomOperation = () => {
+                let operArr = ['+', '-', '*', '/']
+                return operArr[this.randomNumb(0, operArr.length - 1)]
+            }
+
+            checUserAnswer = (numb1, numb2, operation) => {
+                let num1 = numb1
+                let num2 = numb2
+                let rightAnswer = 0
+                switch (operation) {
+                    case '/':
+                        rightAnswer = num1 / num2
+                        break;
+                    case '*':
+                        rightAnswer = num1 * num2
+                        break;
+                    case '-':
+                        rightAnswer = num1 - num2
+                        break;
+                    case '+':
+                        rightAnswer = num1 + num2
+                        break;
+                    default:
+                        break;
+                }
+                return rightAnswer
+            }
+
+            getNewExample = () => {
+                this.inputFirstNumb.value = this.randomNumb(this.min, this.max)
+                this.operation.innerText = this.randomOperation()
+                this.inputSecondNumb.value = this.randomNumb(this.min, this.max)
+            }
+
+            onClickCheck = () => {
+                let num1 = parseInt(this.inputFirstNumb.value)
+                let num2 = parseInt(this.inputSecondNumb.value)
+                let userAnswer = parseInt(this.resNumb.value)
+                let operation = this.operation.innerText
+                let rightAnswer = this.checUserAnswer(num1, num2, operation)
+                this.chekAnswer.innerText = (rightAnswer == userAnswer)
+                this.getNewExample()
+            }
+            render() {
+                const div = document.createElement('div')
+                let lbl = document.createElement('label')
+
+                lbl.innerText = 'Перше число: '
+                this.inputFirstNumb = document.createElement('input')
+                this.inputFirstNumb.value = this.randomNumb(this.min, this.max)
+                lbl.appendChild(this.inputFirstNumb)
+                div.appendChild(lbl)
+                div.appendChild(document.createElement('br'))
+
+                this.operation = document.createElement('label')
+                this.operation.innerText = this.randomOperation()
+                div.appendChild(this.operation)
+                div.appendChild(document.createElement('br'))
+
+                lbl = document.createElement('label')
+                lbl.innerText = 'Друге число: '
+                this.inputSecondNumb = document.createElement('input')
+                this.inputSecondNumb.value = this.randomNumb(this.min, this.max)
+                lbl.appendChild(this.inputSecondNumb)
+                div.appendChild(lbl)
+                div.appendChild(document.createElement('br'))
+
+                lbl = document.createElement('label')
+                lbl.innerText = 'Ваша відповідь:'
+                this.resNumb = document.createElement('input')
+                this.resNumb.value = '0'
+                lbl.appendChild(this.resNumb)
+                div.appendChild(lbl)
+
+                let btn = document.createElement('button')
+                btn.innerText = 'Перевірити'
+                btn.onclick = this.onClickCheck
+                div.appendChild(document.createElement('br'))
+                div.appendChild(btn)
+                div.appendChild(document.createElement('br'))
+
+                lbl = document.createElement('label')
+                lbl.innerText = 'Результат: '
+                this.chekAnswer = document.createElement('span')
+                lbl.appendChild(this.chekAnswer)
+                div.appendChild(lbl)
+                div.appendChild(document.createElement('br'))
+                return div
+            }
+        }
+
+
+
+        class Tester extends AryfmCheker {
+            constructor(min, max) {
+                super(min, max)
+            }
+
+            addAnswerToTable(wrong, right) {
+                let tr = document.createElement('tr')
+                let td = document.createElement('td')
+                td.innerHTML = wrong
+                tr.appendChild(td)
+                td = document.createElement('td')
+                td.innerHTML = right
+                tr.appendChild(td)
+                this.tbl.appendChild(tr)
+            }
+            clear = () => {
+                this.inputFirstNumb.value = ''
+                this.inputSecondNumb.value = ''
+                this.resNumb.value = ''
+                this.chekAnswer.innerText = ''
+                this.totalQuestions.value = ''
+                this.qurrentQuestion.value = ''
+                this.operation.innerText = ''
+            }
+
+            onClickCheck = () => {
+                let totalQuestion = this.totalQuestions.value
+                if (totalQuestion > 1) {
+                    let num1 = parseInt(this.inputFirstNumb.value)
+                    let num2 = parseInt(this.inputSecondNumb.value)
+                    let userAnswer = parseInt(this.resNumb.value)
+                    let operation = this.operation.innerText
+                    let rightAnswer = this.checUserAnswer(num1, num2, operation)
+                    this.chekAnswer.innerText = (rightAnswer == userAnswer)
+                    this.getNewExample()
+                    this.totalQuestions.value = totalQuestion - 1
+                    this.qurrentQuestion.value = parseInt(this.qurrentQuestion.value) + 1
+
+                    if (rightAnswer == userAnswer) {
+                        this.score.value = parseInt(this.score.value) + 10
+                    } else {
+                        this.score.value -= 10
+                        let wrongAns = ' ' + num1 + operation + num2 + '=' + userAnswer
+                        let rightAns = ' ' + num1 + operation + num2 + '=' + rightAnswer
+                        this.addAnswerToTable(wrongAns, rightAns)
+
+                    }
+                } else {
+                    this.clear()
+                    let div = document.getElementById('conteiner')
+                    div.appendChild(this.tbl)
+                }
+            }
+
+            render = () => {
+
+                const mainDiv = super.render()
+                mainDiv.appendChild(document.createElement('br'))
+
+                let lbl = document.createElement('label')
+
+                lbl.innerText = 'Залишилось прикладів: '
+                this.totalQuestions = document.createElement('input')
+                this.totalQuestions.value = 10
+                lbl.appendChild(this.totalQuestions)
+                mainDiv.appendChild(lbl)
+                mainDiv.appendChild(document.createElement('br'))
+
+                let lbl2 = document.createElement('label')
+                lbl2.innerText = 'Приклад нормер: '
+                this.qurrentQuestion = document.createElement('input')
+                this.qurrentQuestion.type = 'number'
+                this.qurrentQuestion.value = 1
+                lbl2.appendChild(this.qurrentQuestion)
+                mainDiv.appendChild(lbl2)
+                mainDiv.appendChild(document.createElement('br'))
+
+
+                let lbl3 = document.createElement('label')
+                lbl3.innerText = 'Балів: '
+                this.score = document.createElement('input')
+                this.score.type = 'number'
+                this.score.value = 0
+                lbl3.appendChild(this.score)
+                mainDiv.appendChild(lbl3)
+                mainDiv.appendChild(document.createElement('br'))
+                mainDiv.appendChild(document.createElement('br'))
+
+                this.tbl = document.createElement('table')
+                this.tbl.border = '2px'
+                let tr = document.createElement('tr')
+                let td = document.createElement('td')
+
+                td.innerHTML = 'Невірний розвязок'
+                tr.appendChild(td)
+
+                td = document.createElement('td')
+                td.innerHTML = 'Вірний розвязок'
+                tr.appendChild(td)
+
+                this.tbl.appendChild(tr)
+                return mainDiv
+            }
+
+
+        }
+        window.onload = function () {
+            const aryfmChecker = new Tester()
+            document.getElementById('conteiner').appendChild(aryfmChecker.render())
+        }
+    </script>
+</head>
+
+<body>
+    <div id="conteiner"></div>
+</body>
+
+</html>

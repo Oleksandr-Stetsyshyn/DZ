@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- Задача 5. Знайти суму елементів, які знаходяться після елемента зі значенням 78 -->
+    <script>
+        let arr = prompt("Введіть масив чисел через пробіл").split(' ')
+        arr.forEach((x,i,arr)=>arr[i]=parseInt(arr[i]))
+     
+        function findIndex78(arr, numb = 78) {
+            return arr.indexOf(numb)
+        }
+
+        function newArr(arr) {
+            let newArr = arr.slice((findIndex78(arr) + 1))
+            return newArr
+        }   
+
+        function getArrSum(res, x) {
+            return res + x
+        }
+
+        let newArrAfter78 = newArr(arr)
+       
+        document.write(`${arr}<br> Сума елементів масиву після числа 78 = ${newArrAfter78.reduce(getArrSum)}`)
+
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>
