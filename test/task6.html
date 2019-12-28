@@ -20,7 +20,6 @@
         }
     </style>
     <script>
-
         class AryfmCheker {
             constructor(min = 1, max = 10) {
                 this.min = min
@@ -28,36 +27,21 @@
             }
 
             randomNumb = (min, max) => {
-                let numb = Math.floor(Math.random() * (max - min + 1)) + min
-                return numb
+                return Math.floor(Math.random() * (max - min + 1)) + min
             }
 
-            randomOperation = () => {
-                let operArr = ['+', '-', '*', '/']
+            randomOperation = (operArr = ['+', '-', '*', '/']) => {
                 return operArr[this.randomNumb(0, operArr.length - 1)]
             }
 
             checUserAnswer = (numb1, numb2, operation) => {
-                let num1 = numb1
-                let num2 = numb2
-                let rightAnswer = 0
                 switch (operation) {
-                    case '/':
-                        rightAnswer = num1 / num2
-                        break;
-                    case '*':
-                        rightAnswer = num1 * num2
-                        break;
-                    case '-':
-                        rightAnswer = num1 - num2
-                        break;
-                    case '+':
-                        rightAnswer = num1 + num2
-                        break;
-                    default:
-                        break;
+                    case '/': return numb1 / numb2
+                    case '*': return numb1 * numb2
+                    case '-': return numb1 - numb2
+                    case '+': return numb1 + numb2
+                    default: break;
                 }
-                return rightAnswer
             }
 
             getNewExample = () => {
@@ -123,8 +107,6 @@
             }
         }
 
-
-
         class Tester extends AryfmCheker {
             constructor(min, max) {
                 super(min, max)
@@ -162,7 +144,6 @@
                     this.getNewExample()
                     this.totalQuestions.value = totalQuestion - 1
                     this.qurrentQuestion.value = parseInt(this.qurrentQuestion.value) + 1
-
                     if (rightAnswer == userAnswer) {
                         this.score.value = parseInt(this.score.value) + 10
                     } else {
@@ -180,12 +161,10 @@
             }
 
             render = () => {
-
                 const mainDiv = super.render()
                 mainDiv.appendChild(document.createElement('br'))
 
                 let lbl = document.createElement('label')
-
                 lbl.innerText = 'Залишилось прикладів: '
                 this.totalQuestions = document.createElement('input')
                 this.totalQuestions.value = 10
@@ -193,23 +172,22 @@
                 mainDiv.appendChild(lbl)
                 mainDiv.appendChild(document.createElement('br'))
 
-                let lbl2 = document.createElement('label')
-                lbl2.innerText = 'Приклад нормер: '
+                lbl = document.createElement('label')
+                lbl.innerText = 'Приклад нормер: '
                 this.qurrentQuestion = document.createElement('input')
                 this.qurrentQuestion.type = 'number'
                 this.qurrentQuestion.value = 1
-                lbl2.appendChild(this.qurrentQuestion)
-                mainDiv.appendChild(lbl2)
+                lbl.appendChild(this.qurrentQuestion)
+                mainDiv.appendChild(lbl)
                 mainDiv.appendChild(document.createElement('br'))
 
-
-                let lbl3 = document.createElement('label')
-                lbl3.innerText = 'Балів: '
+                lbl = document.createElement('label')
+                lbl.innerText = 'Балів: '
                 this.score = document.createElement('input')
                 this.score.type = 'number'
                 this.score.value = 0
-                lbl3.appendChild(this.score)
-                mainDiv.appendChild(lbl3)
+                lbl.appendChild(this.score)
+                mainDiv.appendChild(lbl)
                 mainDiv.appendChild(document.createElement('br'))
                 mainDiv.appendChild(document.createElement('br'))
 
@@ -220,7 +198,6 @@
 
                 td.innerHTML = 'Невірний розвязок'
                 tr.appendChild(td)
-
                 td = document.createElement('td')
                 td.innerHTML = 'Вірний розвязок'
                 tr.appendChild(td)
@@ -228,8 +205,6 @@
                 this.tbl.appendChild(tr)
                 return mainDiv
             }
-
-
         }
         window.onload = function () {
             const aryfmTester = new Tester()
